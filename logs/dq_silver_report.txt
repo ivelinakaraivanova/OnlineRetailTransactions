@@ -1,0 +1,37 @@
+============================================================
+  SILVER DQ REPORT — 2026-04-02 15:12:54
+============================================================
+
+[VOLUME]
+  Bronze rows:  541909
+  Silver rows:  519607
+  Rows removed: 22302
+
+[COMPLETENESS — key columns must have 0 NULLs]
+  NULL InvoiceNo: 0  [PASS]
+  NULL StockCode: 0  [PASS]
+  NULL Quantity: 0  [PASS]
+  NULL UnitPrice: 0  [PASS]
+  NULL InvoiceDate: 0  [PASS]
+
+[VALIDITY]
+  Quantity <= 0: 0  [PASS]
+  UnitPrice <= 0: 0  [PASS]
+  Invalid dates (NULL): 0  [PASS]
+
+[UNIQUENESS]
+  Duplicates (InvoiceNo+StockCode+InvoiceDate): 0  [PASS]
+
+[BUSINESS RULES]
+  Cancellations in Silver: 0  [PASS]
+
+[TYPE CHECKS]
+  InvoiceDate: timestamp (expected timestamp)  [PASS]
+  Quantity: int (expected int)  [PASS]
+  UnitPrice: double (expected double)  [PASS]
+  Amount: double (expected double)  [PASS]
+  CustomerID: int (expected int)  [PASS]
+
+============================================================
+  TOTAL: 15 PASS, 0 FAIL — ALL PASSED
+============================================================

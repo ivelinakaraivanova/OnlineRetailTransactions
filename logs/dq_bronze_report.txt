@@ -1,0 +1,40 @@
+============================================================
+  BRONZE DQ REPORT — 2026-04-02 15:02:21
+============================================================
+
+[VOLUME]
+  Total rows: 541909
+
+[COMPLETENESS — NULL counts]
+  InvoiceNo: 0 (0.0%)
+  StockCode: 0 (0.0%)
+  Description: 1454 (0.27%)
+  Quantity: 0 (0.0%)
+  UnitPrice: 0 (0.0%)
+  InvoiceDate: 0 (0.0%)
+  CustomerID: 135080 (24.93%)
+  Country: 0 (0.0%)
+
+[VALIDITY]
+  Quantity <= 0:  10624
+  UnitPrice <= 0: 2517
+  Invalid dates (NULL): 0
+
+[UNIQUENESS]
+  Duplicates (InvoiceNo+StockCode+InvoiceDate): 10677
+
+[BUSINESS RULES]
+  Cancellations (InvoiceNo starts with 'C'): 9288
+
+[TYPE CHECKS]
+  InvoiceNo: string
+  StockCode: string
+  Description: string
+  Quantity: int
+  InvoiceDate: timestamp
+  UnitPrice: double
+  CustomerID: double
+  Country: string
+  _processed_at: timestamp
+
+============================================================
