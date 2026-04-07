@@ -218,3 +218,5 @@ logs/*.log
 *.pbix
 
 skeleton.txt
+
+jars/
