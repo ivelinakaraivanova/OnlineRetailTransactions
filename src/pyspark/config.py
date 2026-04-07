@@ -19,6 +19,9 @@ LOG_DIR = os.path.join(BASE_DIR, "logs")
 RAW_CSV = os.path.join(RAW_DIR, "online_retail.csv")
 BRONZE_PARQUET = os.path.join(BRONZE_DIR, "online_retail.parquet")
 SILVER_CLEAN = os.path.join(SILVER_DIR, "transactions_clean")
+GOLD_DAILY_SALES = os.path.join(GOLD_DIR, "daily_sales")
+GOLD_CUSTOMER_KPIS = os.path.join(GOLD_DIR, "customer_kpis")
+GOLD_PRODUCT_KPIS = os.path.join(GOLD_DIR, "product_kpis")
 
 # --- DQ report paths ---
 DQ_BRONZE_REPORT = os.path.join(LOG_DIR, "dq_bronze_report.txt")
