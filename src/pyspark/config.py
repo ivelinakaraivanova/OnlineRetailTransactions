@@ -1,13 +1,18 @@
 """Central configuration: paths, PostgreSQL, environment settings."""
 
 import os
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        ".env",
+    ))
+except ImportError:
+    pass  # Running inside Docker — env vars injected by container
 
 # --- Base paths (portable, derived from this file's location) ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Load .env from project root
-load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
 BRONZE_DIR = os.path.join(BASE_DIR, "data", "bronze")
