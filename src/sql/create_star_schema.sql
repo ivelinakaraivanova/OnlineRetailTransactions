@@ -2,7 +2,8 @@ SELECT * FROM transactions_clean tc LIMIT 10;
 SELECT COUNT(*) FROM transactions_clean tc;
 
 
--- Creates Star Schema from transactions_clean table.
+-- Creates Star Schema from transactions_clean table
+-- Run against PostgreSQL after silver_to_postgresql.py
 
 -- ============================================================
 -- DIMENSION: dim_customer
@@ -35,27 +36,36 @@ GROUP BY "StockCode";
 ALTER TABLE dim_product ADD PRIMARY KEY (stock_code);
 
 -- ============================================================
--- DIMENSION: dim_date
+-- DIMENSION: dim_date (continuous — no gaps)
 -- ============================================================
 DROP TABLE IF EXISTS dim_date;
 
 CREATE TABLE dim_date AS
-SELECT DISTINCT
-    CAST("InvoiceDate" AS DATE)           AS date_id,
-    EXTRACT(YEAR FROM "InvoiceDate")      AS year,
-    EXTRACT(QUARTER FROM "InvoiceDate")   AS quarter,
-    EXTRACT(MONTH FROM "InvoiceDate")     AS month,
-    EXTRACT(DAY FROM "InvoiceDate")       AS day,
-    EXTRACT(DOW FROM "InvoiceDate")       AS day_of_week,
-    TO_CHAR("InvoiceDate", 'Day')         AS day_name,
-    TO_CHAR("InvoiceDate", 'Month')       AS month_name
-FROM transactions_clean;
+WITH date_range AS (
+    SELECT generate_series(
+        (SELECT MIN(CAST("InvoiceDate" AS DATE)) FROM transactions_clean),
+        (SELECT MAX(CAST("InvoiceDate" AS DATE)) FROM transactions_clean),
+        '1 day'::interval
+    )::date AS date_id
+)
+SELECT
+    date_id,
+    EXTRACT(YEAR FROM date_id)      AS year,
+    EXTRACT(QUARTER FROM date_id)   AS quarter,
+    EXTRACT(MONTH FROM date_id)     AS month,
+    EXTRACT(DAY FROM date_id)       AS day,
+    EXTRACT(DOW FROM date_id)       AS day_of_week,
+    TO_CHAR(date_id, 'Day')         AS day_name,
+    TO_CHAR(date_id, 'Month')       AS month_name
+FROM date_range;
 
 ALTER TABLE dim_date ADD PRIMARY KEY (date_id);
 
 -- ============================================================
 -- FACT: fact_sales
 -- ============================================================
+-- DROP TABLE fact_sales CASCADE;
+
 CREATE TABLE fact_sales AS
 SELECT
     "InvoiceNo"                           AS invoice_no,
@@ -72,3 +82,5 @@ ALTER TABLE fact_sales
     ADD CONSTRAINT fk_fact_date    FOREIGN KEY (date_id)    REFERENCES dim_date(date_id);
 
 -- No FK on customer_id because some rows have NULL CustomerID
+
+SELECT * FROM dim_date dd LIMIT 10;
