@@ -215,7 +215,7 @@ data/gold/
 logs/*.log
 
 # Power BI
-*.pbix
+#*.pbix
 
 skeleton.txt
 
